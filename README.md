@@ -10,9 +10,9 @@ In order to use a Swift package in the REPL you need to add a dynamic library pr
         . . .
         
         .library(
-            name: "swiftreplmadness",
+            name: "Sample",
             type: .dynamic,
-            targets: ["swiftreplmadness"]),
+            targets: ["Sample"]),
 
         . . .
 
