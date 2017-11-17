@@ -1,31 +1,42 @@
 
 ## Swift REPL Madness
 
-In order to use a Swift package in the REPL you need to
+(*Thanks to @Pitometsu I was able to update this for Swift 4*)
 
-1. build a shared library (this is not done by default)
-1. pass the appropriate flags to the REPL
+In order to use a Swift package in the REPL you need to add a dynamic library product to `Package.swift` So, for example, if you have a package named `Sample`, you need to add the following to the package manifest:
 
-Given a package, the necessary incantation to build it is as follows:
+    products: [
 
-    swift build -Xswiftc -emit-library
+        . . .
+        
+        .library(
+            name: "swiftreplmadness",
+            type: .dynamic,
+            targets: ["swiftreplmadness"]),
+
+        . . .
+
+    ],        
+
+Now build as usual:
+
+    swift build
     
-This will build the Swift package and create the dynamic library. Then to be able to use it from the REPL (assuming the Package is named `sample`):
+Then to be able to use it from the REPL:
 
-    swift -I .build/debug -L . -lsample
+    swift -I .build/debug -L .build/debug -lSample
 
 At this point, the REPL will start up and from its prompt, you can `import` the package and use it's public declarations:
 
-
-    Welcome to Apple Swift version 3.0 (swiftlang-800.0.46.2 clang-800.0.38). Type :help for assistance.
-      1> import sample
-      2> // do something with the sample package...
+    Welcome to Apple Swift version 4.0.2 (swiftlang-900.0.69.1....
+      1> import Sample
+      2> // do something with the Sample package...
 
 
 
 #### See it in action
 
-The code in this repo includes a sample package named `swiftreplmadness` which defines one public data type, `simplestruct`. You can use the included `Makefile` to build the package and start up the REPL. Simply change to the project's root directory and type `make'.
+The code in this repo includes a sample package named `swiftreplmadness` which defines one public data type, `simplestruct`. You can use the included `Makefile` to build the package and start up the REPL. Simply change to the project's root directory and type `make`.
 
 
 #### (Un)License
